@@ -1,11 +1,22 @@
-# No automated tests exist yet. This file is a placeholder so that
-# `-DED_LANCZOS_BUILD_TESTS=ON` doesn't fail the configure step.
-#
-# When tests are added (e.g. with Catch2 or GoogleTest), register them here
-# with add_executable()/add_test(), for example:
-#
-#   find_package(Catch2 REQUIRED)
-#   add_executable(unit_tests test_common.cpp test_kspace_1o2.cpp)
-#   target_link_libraries(unit_tests PRIVATE ed_lanczos::ed_lanczos Catch2::Catch2WithMain)
-#   add_test(NAME unit_tests COMMAND unit_tests)
-message(STATUS "ed_lanczos: no unit tests defined yet")
+
+# Fetch Google Test from GitHub
+include(FetchContent)
+FetchContent_Declare(
+  googletest
+  GIT_REPOSITORY https://github.com/google/googletest
+  GIT_TAG        v1.15.2
+)
+# For Windows: Prevent overriding the parent project's compiler/linker settings
+set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+FetchContent_MakeAvailable(googletest)
+
+# Add your test executable
+add_executable(my_tests test_main.cpp)
+
+# Link against Google Test (gtest_main provides a default main() function)
+target_link_libraries(my_tests PRIVATE ed_lanczos::ed_lanczos PRIVATE gtest_main)
+
+# Discover and run tests
+include(GoogleTest)
+gtest_discover_tests(my_tests)
+
