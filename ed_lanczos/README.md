@@ -24,4 +24,4 @@ automatically
 
 ## Usage
 change line 58 and 59 in CMakeLists.txt to your local path to eigen and ezarpack.
-then build with cmake
+Then build with cmake.
