@@ -8,8 +8,8 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-if(NOT CMAKE_BUILD_TYPE)
-  set(CMAKE_BUILD_TYPE Release CACHE STRING "Build type" FORCE)
+if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
+  set(CMAKE_BUILD_TYPE Release CACHE STRING "Choose the type of build." FORCE)
 endif()
 
 option(ED_LANCZOS_ENABLE_LTO "Enable interprocedural optimization in Release builds" OFF)
@@ -23,7 +23,7 @@ option(ED_LANCZOS_ENABLE_LTO "Enable interprocedural optimization in Release bui
 #   cmake -B build -DEIGEN3_INCLUDE_DIR=/path/to/eigen \
 #                  -DEIGENRAND_INCLUDE_DIR=/path/to/EigenRand \
 #                  -DEZARPACK_INCLUDE_DIR=/path/to/ezarpack/include
-find_package(Eigen3 3.4 QUIET)
+find_package(Eigen3 3.4)
 find_package(OpenMP REQUIRED)
 
 # ARPACK (via ezarpack) needs a Fortran ARPACK implementation plus BLAS/LAPACK.
@@ -36,15 +36,15 @@ if(NOT ARPACK_LIBRARY)
     "(or .a) when configuring, or install arpack-ng.")
 endif()
 
+
 # ---------------------------------------------------------------------------
 # Core library: all the physics/linear-algebra code, no main()
 # ---------------------------------------------------------------------------
 add_library(ed_lanczos
   src/common.cpp
-  src/applyHamiltonian.cpp
   src/kspace_1o2.cpp
-  src/Lanczos.cpp
   src/Lanczos_kspace.cpp
+  src/applyHamiltonian.cpp
   src/unit_cells.cpp
 )
 add_library(ed_lanczos::ed_lanczos ALIAS ed_lanczos)
@@ -55,12 +55,8 @@ target_include_directories(ed_lanczos
     $<INSTALL_INTERFACE:include>
 )
 
-if(EIGENRAND_INCLUDE_DIR)
-  target_include_directories(ed_lanczos PUBLIC ${EIGENRAND_INCLUDE_DIR})
-endif()
-if(EZARPACK_INCLUDE_DIR)
-  target_include_directories(ed_lanczos PUBLIC ${EZARPACK_INCLUDE_DIR})
-endif()
+target_include_directories(ed_lanczos PUBLIC /home/cenjiefu/Exact_Diagonalization/)
+target_include_directories(ed_lanczos PUBLIC /home/cenjiefu/Exact_Diagonalization/ezARPACK.src/include/)
 
 target_link_libraries(ed_lanczos
   PUBLIC
@@ -69,11 +65,6 @@ target_link_libraries(ed_lanczos
     LAPACK::LAPACK
 )
 
-if(TARGET Eigen3::Eigen)
-  target_link_libraries(ed_lanczos PUBLIC Eigen3::Eigen)
-elseif(EIGEN3_INCLUDE_DIR)
-  target_include_directories(ed_lanczos PUBLIC ${EIGEN3_INCLUDE_DIR})
-endif()
 
 if(ARPACK_LIBRARY)
   target_link_libraries(ed_lanczos PUBLIC ${ARPACK_LIBRARY})
