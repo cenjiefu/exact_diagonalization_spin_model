@@ -1,4 +1,4 @@
-# ed_lanczos
+# About
 
 Exact-diagonalization / Lanczos code for spin-1/2 lattice models, with both real-space and momentum-space (k-space, symmetry-reduced)
 solvers.
@@ -19,6 +19,9 @@ Eigen, EigenRand, and ezarpack are header-only and are **not vendored in this
 repo**. If they aren't already visible to your compiler's default include
 path, point CMake at them
 
-If Eigen is installed system-wide (e.g. via `apt install libeigen3-dev` or a
-Conan/vcpkg toolchain file), `find_package(Eigen3)` will pick it up
-automatically and you can drop `-DEIGEN3_INCLUDE_DIR`.
+If Eigen is installed system-wide (e.g. with "module load arpack-ng Eigen3" in HPC clusters), `find_package(Eigen3)` will pick it up
+automatically
+
+## Usage
+change line 58 and 59 in CMakeLists.txt to your local path to eigen and ezarpack.
+then build with cmake
