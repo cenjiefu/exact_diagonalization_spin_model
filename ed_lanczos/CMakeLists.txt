@@ -55,8 +55,8 @@ target_include_directories(ed_lanczos
     $<INSTALL_INTERFACE:include>
 )
 
-target_include_directories(ed_lanczos PUBLIC /home/cenjiefu/Exact_Diagonalization/)
-target_include_directories(ed_lanczos PUBLIC /home/cenjiefu/Exact_Diagonalization/ezARPACK.src/include/)
+target_include_directories(ed_lanczos PUBLIC /path/to/eigen)
+target_include_directories(ed_lanczos PUBLIC /path/to/ezarpack)
 
 target_link_libraries(ed_lanczos
   PUBLIC
