@@ -1,8 +1,8 @@
 # ed_lanczos
 
-Exact-diagonalization / Lanczos code for spin-1/2 lattice models (Kitaev–Heisenberg–Γ
-type Hamiltonians), with both real-space and momentum-space (k-space, symmetry-reduced)
+Exact-diagonalization / Lanczos code for spin-1/2 lattice models, with both real-space and momentum-space (k-space, symmetry-reduced)
 solvers.
+Can define arbitrary lattice with any spin interactions between sites. The example is the extended Kitaev models on honeycomb lattices of 6,12,24 sites.
 
 ## Dependencies
 
